@@ -15,5 +15,11 @@ path = '/home/ed/Development/Python/gmaildata/All mail Including Spam and Trash.
 mbox = mailbox.mbox(path)
 
 
+## turn dates of emails into a list per day
 
+all_dates = []
+mbox = mailbox.mbox(path)
+for message in mbox:
+    all_dates.append( str (parse( message['date'])). split (' ')[0])
+    
 
