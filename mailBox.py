@@ -16,6 +16,8 @@ import itertools
 import plotly.plotly as py
 from plotly.graph_objs import *
 
+import plotly
+plotly.tools.set_credentials_file(username='eddwinn', api_key='u0svj9kpb2', stream_ids=['fxrj4m028s', '63d4pvq8x3'])
 
 # enter path to mbox file.  Download from google under your dashboard.
 #  Go to Account/ then DashBard/ then download Gmail data.
@@ -38,9 +40,12 @@ mbox.flush()
 
 all_dates = []
 mbox = mailbox.mbox(path)
-for message in mbox:
-    all_dates.append( str( parse( message['date'] ) ).split(' ')[0] )
+try:
+    for message in mbox:
+        all_dates.append( str( parse( message['date'] ) ).split(' ')[0] )
 
+except Exception as e:
+    print(str(e))
 # Count mail per day
 
 email_count = [(g[0], len(list(g[1]))) for g in itertools.groupby(all_dates)]
@@ -53,5 +58,9 @@ y = []
 for date, count in email_count:
     y.append(date)
     x.append(count)
+"""
 data = Data([x, y])
-plot_url = py.iplot(data, filename='line-scatter' )
+plot_url = py.iplot(Data, filename='line-scatter' )
+
+"""
+py.iplot( Data([ Scatter( x=x, y=y ) ]) )
